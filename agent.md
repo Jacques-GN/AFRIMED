@@ -1,34 +1,30 @@
-# Agent Instructions for AFRIMED
+# AFRIMED - Instructions pour l'Agent IA Développeur
 
-## Project Overview
-AFRIMED is a Progressive Web App (PWA) designed to streamline medical consultations in Africa. It connects administrators, doctors, lab technicians, and patients. 
-This is a prototype focusing on the core consultation flow: patient record creation, guided consultation, AI diagnostic suggestions (Gemini), lab test requests, and prescription generation.
+## Contexte du projet
+AFRIMED est un prototype d'application médicale pour l'Afrique (contexte burkinabè en priorité). L'objectif est de fluidifier la consultation médicale de bout en bout avec l'aide de l'IA.
 
-## Tech Stack
-- Frontend: React (Vite), Tailwind CSS
-- Backend/Database: Supabase (Auth, Database, Real-time)
-- AI: Google Gemini API
-- Hosting: Vercel (PWA capabilities)
+## Stack Technique
+- **Frontend** : React 18, Vite, Tailwind CSS, React Router DOM
+- **Icônes** : Lucide React
+- **Backend/Base de données** : Supabase (Auth, DB, Realtime)
+- **IA** : Google Gemini API
+- **Hébergement** : Vercel (PWA ready)
 
-## Core Profiles & Features
-1. Administrator: Manages clinic accounts (doctors, lab techs), views clinic dashboard.
-2. Doctor: Dashboard, patient search/creation (generates unique short alphanumeric code), guided consultation, AI diagnostic suggestions, lab requests, prescription generation.
-3. Lab Technician: Dashboard of pending requests, result entry.
-4. Patient: Access via unique code, view read-only records, prescriptions, and follow-up instructions.
+## Règles de développement strictes
+1. **Composants fonctionnels** : Utiliser exclusivement des fonctions React et des Hooks (`useState`, `useEffect`).
+2. **Styling** : Utiliser uniquement les classes utilitaires Tailwind CSS. Pas de fichiers CSS séparés sauf pour les directives Tailwind de base.
+3. **Gestion d'état** : Pour le prototype, l'état local (`useState`) et les mocks dans `src/services/supabaseClient.js` sont privilégiés. Préparer les appels Supabase réels de manière modulaire.
+4. **Sécurité** : Ne jamais exposer de clés API en dur. Utiliser `import.meta.env`.
+5. **Accessibilité** : Utiliser des contrastes suffisants et des labels pour les formulaires.
 
-## Out of Scope for Prototype (V2)
-- Offline mode with deferred sync
-- Nurse profile
-- Push notifications (Email/SMS)
-- National anonymized dashboard
-- Vaccination and medical imaging management
-- Multi-clinic management
+## Périmètre du Prototype (MVP)
+- **4 Profils** : Admin, Médecin, Laborantin, Patient.
+- **Flux central** : Le médecin crée/ouvre un dossier -> saisit constantes et motif -> demande suggestion IA -> pose diagnostic -> prescrit (avec alerte allergie) -> envoie demande labo si besoin.
+- **Patient** : Accès via code unique (pas de création de compte complexe).
+- **Hors périmètre pour l'instant** : Mode hors-ligne (V2), Notifications SMS/Email (V2), Gestion multi-établissements (V2).
 
-## Coding Rules for the Agent
-1. Component Structure: Use functional components with React Hooks. Keep components small and modular.
-2. Styling: Use Tailwind CSS exclusively for styling. Ensure responsive design.
-3. State Management: Use Supabase for all persistent data.
-4. AI Integration: The geminiService.js should format the consultation context into a structured prompt for Gemini.
-5. Security: Use .env for API keys. Row Level Security (RLS) must be considered.
-6. Error Handling: Gracefully handle API failures.
-7. PWA: Ensure manifest.json is set up for installability.
+## Prochaines tâches attendues de l'agent
+1. Remplacer les données mockées par de véritables appels `supabase.from('...').select()`.
+2. Implémenter la logique de génération de PDF pour les ordonnances (ex: avec `jspdf`).
+3. Affiner le prompt envoyé à l'API Gemini dans `geminiService.js` pour inclure les pathologies locales (paludisme, typhoïde, etc.).
+4. Ajouter la validation des formulaires (ex: avec `react-hook-form` + `zod` si nécessaire).
