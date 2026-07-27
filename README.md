@@ -13,4 +13,4 @@ npm install
 npm run dev
 
 ## Variables d'environnement
-Un fichier .env est inclus avec les clés de configuration pour le prototype.
+Copiez le fichier .env.example en .env et remplissez-le avec vos clés réelles.
