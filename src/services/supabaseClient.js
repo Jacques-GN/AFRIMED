@@ -5,7 +5,6 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'dummy-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Mock data for prototype demonstration
 export const mockPatients = [
   { id: '1', code: 'AFR-8X9', name: 'Koffi Amadou', dob: '1985-04-12', phone: '70 00 00 00', allergies: 'Pénicilline', history: 'Hypertension' },
   { id: '2', code: 'AFR-2Y4', name: 'Traoré Amina', dob: '1990-08-22', phone: '71 11 11 11', allergies: 'Aucune', history: 'Rien de notable' }
