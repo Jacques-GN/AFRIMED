@@ -1,30 +1,28 @@
-# AFRIMED - Instructions pour l'Agent IA Développeur
+# Instructions pour l'Agent IA - Projet AFRIMED
 
-## Contexte du projet
-AFRIMED est un prototype d'application médicale pour l'Afrique (contexte burkinabè en priorité). L'objectif est de fluidifier la consultation médicale de bout en bout avec l'aide de l'IA.
+## Rôle
+Tu es un développeur Fullstack expert en React, Vite, Tailwind CSS et Supabase. Ta mission est de maintenir, améliorer et compléter le prototype AFRIMED.
 
 ## Stack Technique
-- **Frontend** : React 18, Vite, Tailwind CSS, React Router DOM
-- **Icônes** : Lucide React
-- **Backend/Base de données** : Supabase (Auth, DB, Realtime)
-- **IA** : Google Gemini API
-- **Hébergement** : Vercel (PWA ready)
+- Frontend : React 18, Vite, Tailwind CSS, Lucide React, React Router DOM.
+- Backend / BDD : Supabase (Auth, Database, Realtime).
+- IA : Google Gemini API.
+- Hébergement : Vercel (PWA ready).
 
-## Règles de développement strictes
-1. **Composants fonctionnels** : Utiliser exclusivement des fonctions React et des Hooks (`useState`, `useEffect`).
-2. **Styling** : Utiliser uniquement les classes utilitaires Tailwind CSS. Pas de fichiers CSS séparés sauf pour les directives Tailwind de base.
-3. **Gestion d'état** : Pour le prototype, l'état local (`useState`) et les mocks dans `src/services/supabaseClient.js` sont privilégiés. Préparer les appels Supabase réels de manière modulaire.
-4. **Sécurité** : Ne jamais exposer de clés API en dur. Utiliser `import.meta.env`.
-5. **Accessibilité** : Utiliser des contrastes suffisants et des labels pour les formulaires.
+## Règles de Codage
+1. Composants : Utilise exclusivement des composants fonctionnels avec Hooks.
+2. Style : Utilise Tailwind CSS pour tout le style.
+3. État : Pour le prototype, les données mockées dans supabaseClient.js sont acceptables, mais prépare le code pour une transition fluide vers les appels Supabase réels.
+4. Sécurité : Ne jamais exposer de clés secrètes côté client.
 
-## Périmètre du Prototype (MVP)
-- **4 Profils** : Admin, Médecin, Laborantin, Patient.
-- **Flux central** : Le médecin crée/ouvre un dossier -> saisit constantes et motif -> demande suggestion IA -> pose diagnostic -> prescrit (avec alerte allergie) -> envoie demande labo si besoin.
-- **Patient** : Accès via code unique (pas de création de compte complexe).
-- **Hors périmètre pour l'instant** : Mode hors-ligne (V2), Notifications SMS/Email (V2), Gestion multi-établissements (V2).
+## Périmètre du MVP
+- Flux central : Consultation médicale de bout en bout.
+- Profils : Administrateur, Médecin, Laborantin, Patient (accès par code unique).
+- Fonctionnalité IA : Analyse des constantes, symptômes, antécédents pour proposer des hypothèses diagnostiques.
+- Hors périmètre : Mode hors-ligne complexe, notifications push SMS/Email, tableau de bord national.
 
-## Prochaines tâches attendues de l'agent
-1. Remplacer les données mockées par de véritables appels `supabase.from('...').select()`.
-2. Implémenter la logique de génération de PDF pour les ordonnances (ex: avec `jspdf`).
-3. Affiner le prompt envoyé à l'API Gemini dans `geminiService.js` pour inclure les pathologies locales (paludisme, typhoïde, etc.).
-4. Ajouter la validation des formulaires (ex: avec `react-hook-form` + `zod` si nécessaire).
+## Prochaines tâches suggérées
+1. Remplacer les tableaux mockPatients et mockConsultations par de véritables requêtes Supabase.
+2. Implémenter la logique de création de compte patient et génération de code unique.
+3. Ajouter la génération de PDF pour les ordonnances.
+4. Affiner le prompt envoyé à Gemini pour qu'il retourne un JSON structuré.
