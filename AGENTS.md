@@ -83,7 +83,10 @@ d'improviser une version partielle.
 4. **Aucun code mort.** Pas de fonction, import, variable ou fichier inutilisé.
 5. **Pas de dépendance lourde pour une fonction simple** (formatage de date, tri, calculs
    basiques) — écrire en TypeScript natif plutôt qu'importer une librairie entière.
-6. **TypeScript partout**, types explicites pour les entités métier (voir `src/types/`).
+6. **JavaScript (JSX)**, pas TypeScript — décision pragmatique pour rester cohérent avec le
+   scaffold existant et éviter la friction de configuration sous contrainte de temps. Documenter
+   les formes de données attendues en commentaire JSDoc au-dessus des fonctions clés plutôt
+   qu'avec des types stricts.
 7. **Accessibilité de base** : focus clavier visible, contrastes suffisants, `alt` sur les images.
 8. **Responsive** : usage principal sur tablette, mais doit rester utilisable sur desktop (démo)
    et mobile (accès patient par téléphone).
