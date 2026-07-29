@@ -1,22 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
-import { PATIENTS_DEMO, MEDICAMENTS_DEMO } from '../data/demoData'
+import { Download } from 'lucide-react'
+import { obtenirPatientParId } from '../lib/patientsRepository'
+import { MEDICAMENTS_DEMO } from '../data/demoData'
+import { genererOrdonnancePDF } from '../lib/genererOrdonnancePDF'
 import PatientBand from '../components/patient/PatientBand'
 
 function Prescription() {
   const { patientId } = useParams()
   const { state } = useLocation()
   const navigate = useNavigate()
-  const patient = PATIENTS_DEMO.find((p) => p.id === patientId)
 
+  const [patient, setPatient] = useState(null)
   const [lignes, setLignes] = useState([{ medicament: '', posologie: '', duree: '' }])
   const [passageOutre, setPassageOutre] = useState({})
   const [enregistre, setEnregistre] = useState(false)
 
-  if (!patient) return <p className="text-sm text-red-600">Patient introuvable.</p>
+  useEffect(() => {
+    obtenirPatientParId(patientId).then(setPatient)
+  }, [patientId])
+
+  if (!patient) return <p className="text-sm text-slate-400">Chargement...</p>
 
   const allergieDetectee = (nomMedicament) =>
-    patient.allergies.find((a) => nomMedicament.toLowerCase().includes(a.substance.toLowerCase()))
+    (patient.allergies || []).find((a) => nomMedicament.toLowerCase().includes(a.substance.toLowerCase()))
 
   const majLigne = (index, champ, valeur) => {
     const copie = [...lignes]
@@ -32,11 +39,15 @@ function Prescription() {
     return !alerte || passageOutre[l.medicament]
   })
 
+  const telechargerPDF = () => {
+    genererOrdonnancePDF({ patient, diagnosticRetenu: state?.diagnosticRetenu, lignes })
+  }
+
   if (enregistre) {
     return (
       <div className="max-w-lg">
         <h1 className="text-lg font-bold text-slate-900 mb-4">Ordonnance enregistrée</h1>
-        <article className="bg-white rounded-xl border border-slate-200 p-6">
+        <article className="bg-white rounded-2xl border border-slate-200 shadow-soft p-6">
           <p className="text-sm font-semibold text-slate-800 mb-1">
             {patient.nom} {patient.prenom} — {patient.codeUnique}
           </p>
@@ -48,15 +59,20 @@ function Prescription() {
               </li>
             ))}
           </ul>
-          <p className="text-xs text-slate-400">
-            Génération PDF téléchargeable à implémenter (ex. bibliothèque jsPDF côté client).
-          </p>
-          <button
-            onClick={() => navigate(`/dossier/${patient.id}`)}
-            className="mt-4 text-sm bg-green-600 text-white px-4 py-2 rounded-lg font-medium"
-          >
-            Retour au dossier
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={telechargerPDF}
+              className="flex items-center gap-2 text-sm bg-green-600 text-white px-4 py-2 rounded-lg font-medium"
+            >
+              <Download size={15} /> Télécharger le PDF
+            </button>
+            <button
+              onClick={() => navigate(`/dossier/${patient.id}`)}
+              className="text-sm border border-slate-200 px-4 py-2 rounded-lg"
+            >
+              Retour au dossier
+            </button>
+          </div>
         </article>
       </div>
     )
@@ -69,12 +85,12 @@ function Prescription() {
 
       <PatientBand patient={patient} />
 
-      <article className="bg-white rounded-xl border border-slate-200 p-5">
+      <article className="bg-white rounded-2xl border border-slate-200 shadow-soft p-5">
         {lignes.map((ligne, index) => {
           const alerte = ligne.medicament && allergieDetectee(ligne.medicament)
           return (
             <div key={index} className="border border-slate-100 rounded-lg p-3 mb-3">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <select
                   value={ligne.medicament}
                   onChange={(e) => majLigne(index, 'medicament', e.target.value)}
@@ -85,18 +101,12 @@ function Prescription() {
                     <option key={m.nom} value={m.nom}>{m.nom}</option>
                   ))}
                 </select>
-                <input
-                  placeholder="Posologie"
-                  value={ligne.posologie}
+                <input placeholder="Posologie" value={ligne.posologie}
                   onChange={(e) => majLigne(index, 'posologie', e.target.value)}
-                  className="border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
-                <input
-                  placeholder="Durée"
-                  value={ligne.duree}
+                  className="border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                <input placeholder="Durée" value={ligne.duree}
                   onChange={(e) => majLigne(index, 'duree', e.target.value)}
-                  className="border border-slate-200 rounded-lg px-3 py-2 text-sm"
-                />
+                  className="border border-slate-200 rounded-lg px-3 py-2 text-sm" />
               </div>
 
               {alerte && (
@@ -105,13 +115,8 @@ function Prescription() {
                     ⚠ Allergie connue : {alerte.substance} (gravité {alerte.gravite})
                   </p>
                   <label className="flex items-center gap-2 text-xs text-red-700 mt-1">
-                    <input
-                      type="checkbox"
-                      checked={!!passageOutre[ligne.medicament]}
-                      onChange={(e) =>
-                        setPassageOutre((prec) => ({ ...prec, [ligne.medicament]: e.target.checked }))
-                      }
-                    />
+                    <input type="checkbox" checked={!!passageOutre[ligne.medicament]}
+                      onChange={(e) => setPassageOutre((prec) => ({ ...prec, [ligne.medicament]: e.target.checked }))} />
                     Prescrire malgré tout (action tracée dans le journal d'audit)
                   </label>
                 </div>

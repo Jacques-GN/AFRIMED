@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { PATIENTS_DEMO } from '../data/demoData'
+import { obtenirPatientParId } from '../lib/patientsRepository'
 import { obtenirSuggestionsDiagnostiques } from '../services/geminiService'
 import PatientBand from '../components/patient/PatientBand'
 import ConsultationStepper from '../components/consultation/ConsultationStepper'
@@ -12,7 +12,15 @@ import SuggestionsPanel from '../components/ai/SuggestionsPanel'
 function Consultation() {
   const { patientId } = useParams()
   const navigate = useNavigate()
-  const patient = PATIENTS_DEMO.find((p) => p.id === patientId)
+  const [patient, setPatient] = useState(null)
+  const [chargementPatient, setChargementPatient] = useState(true)
+
+  useEffect(() => {
+    obtenirPatientParId(patientId).then((p) => {
+      setPatient(p)
+      setChargementPatient(false)
+    })
+  }, [patientId])
 
   const [etapeActive, setEtapeActive] = useState(0)
   const [donnees, setDonnees] = useState({})
@@ -21,6 +29,7 @@ function Consultation() {
   const [decisionsIA, setDecisionsIA] = useState({})
   const [diagnosticRetenu, setDiagnosticRetenu] = useState('')
 
+  if (chargementPatient) return <p className="text-sm text-slate-400">Chargement...</p>
   if (!patient) {
     return <p className="text-sm text-red-600">Patient introuvable.</p>
   }

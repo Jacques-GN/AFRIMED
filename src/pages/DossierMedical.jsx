@@ -1,11 +1,21 @@
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { PATIENTS_DEMO } from '../data/demoData'
+import { obtenirPatientParId } from '../lib/patientsRepository'
 import PatientBand from '../components/patient/PatientBand'
 
 function DossierMedical() {
   const { patientId } = useParams()
-  const patient = PATIENTS_DEMO.find((p) => p.id === patientId)
+  const [patient, setPatient] = useState(null)
+  const [chargement, setChargement] = useState(true)
 
+  useEffect(() => {
+    obtenirPatientParId(patientId).then((p) => {
+      setPatient(p)
+      setChargement(false)
+    })
+  }, [patientId])
+
+  if (chargement) return <p className="text-sm text-slate-400">Chargement...</p>
   if (!patient) return <p className="text-sm text-red-600">Patient introuvable.</p>
 
   return (
