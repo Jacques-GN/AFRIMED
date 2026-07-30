@@ -25,7 +25,7 @@ function EtapeSignesVitaux({ donnees, onChange, onSuivant, onPrecedent }) {
               type="text"
               value={constantes[champ.cle] || ''}
               onChange={(e) => majConstante(champ.cle, e.target.value)}
-              className="w-full mt-1 border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              className="w-full mt-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 focus:border-green-500 outline-none"
             />
           </div>
         ))}
@@ -39,7 +39,7 @@ function EtapeSignesVitaux({ donnees, onChange, onSuivant, onPrecedent }) {
           onClick={onSuivant}
           className="text-sm bg-green-600 text-white px-4 py-2 rounded-lg font-medium"
         >
-          Suivant : Analyse IA Clinique →
+          Suivant : Orientation →
         </button>
       </div>
     </article>

@@ -12,6 +12,18 @@ export default {
           navyLight: '#0F2340',
           green: '#16A34A',
         },
+        terracotta: {
+          50: '#FDF5F0',
+          100: '#F9E8DC',
+          200: '#F0C9AD',
+          300: '#E5A67A',
+          400: '#D4864F',
+          500: '#C4703F',
+          600: '#B85C38',
+          700: '#9A4A2E',
+          800: '#7D3C27',
+          900: '#5F2E1F',
+        },
       },
       boxShadow: {
         // Ombres à double couche pour une profondeur douce, plus crédible qu'une

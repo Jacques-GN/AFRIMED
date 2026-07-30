@@ -1,5 +1,6 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { FlaskConical, History } from 'lucide-react'
+import { FlaskConical, History, LogOut } from 'lucide-react'
+import { useAuth } from '../../services/authContext'
 
 const LIENS_NAV = [
   { label: 'Demandes en attente', chemin: '/laborantin', icone: FlaskConical },
@@ -7,6 +8,8 @@ const LIENS_NAV = [
 ]
 
 function LayoutLaborantin() {
+  const { profil, signOut } = useAuth()
+
   return (
     <div className="flex bg-slate-50 min-h-screen">
       <aside className="w-64 shrink-0 bg-gradient-to-b from-[#0B1E3D] to-[#0A1830] text-white min-h-screen flex flex-col">
@@ -40,8 +43,31 @@ function LayoutLaborantin() {
         </nav>
 
         <footer className="p-4 m-4 mt-auto bg-white/5 rounded-xl border border-white/5">
-          <p className="text-sm font-semibold">Awa Sawadogo</p>
-          <p className="text-xs text-slate-400">Laborantine</p>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
+              {profil?.prenom?.[0] || 'A'}{profil?.nom?.[0] || 'S'}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold truncate">
+                {profil?.prenom || 'Awa'} {profil?.nom || 'Sawadogo'}
+              </p>
+              <p className="text-xs text-slate-400">Laborantine</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-white/5">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.8)]" />
+              <span className="text-xs text-green-400">En ligne</span>
+            </div>
+            <button
+              onClick={signOut}
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+              title="Déconnexion"
+              aria-label="Se déconnecter"
+            >
+              <LogOut size={14} className="text-slate-400" />
+            </button>
+          </div>
         </footer>
       </aside>
 

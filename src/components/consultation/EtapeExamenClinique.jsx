@@ -26,7 +26,7 @@ function EtapeExamenClinique({ donnees, onChange, onSuivant, onPrecedent }) {
             <textarea
               value={revue[appareil.cle] || ''}
               onChange={(e) => majAppareil(appareil.cle, e.target.value)}
-              className="w-full mt-1 border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              className="w-full mt-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 focus:border-green-500 outline-none"
               rows={2}
             />
           </div>
@@ -39,7 +39,7 @@ function EtapeExamenClinique({ donnees, onChange, onSuivant, onPrecedent }) {
       <textarea
         value={donnees.examenPhysique || ''}
         onChange={(e) => onChange({ ...donnees, examenPhysique: e.target.value })}
-        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-200 focus:border-green-500 outline-none"
         rows={3}
         placeholder="Ex : abdomen souple sensible en fosse iliaque, conjonctives légèrement pâles..."
       />

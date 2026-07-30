@@ -1,25 +1,32 @@
+import { MoreVertical } from 'lucide-react'
+
 function PatientBand({ patient }) {
-  if (!patient) return null
+  const initiales = `${(patient.prenom || 'O')[0]}${(patient.nom || 'I')[0]}`
 
   return (
-    <section className="flex items-center justify-between bg-white rounded-2xl border border-slate-200 shadow-soft px-5 py-3.5 mb-6">
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-semibold text-sm shadow-soft shrink-0">
-          {patient.prenom?.[0]}
+    <div className="bg-white rounded-xl border border-slate-200 p-4 mb-4 shadow-sm flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+          <span className="text-green-700 font-bold text-sm">{initiales}</span>
         </div>
-        <div className="min-w-0">
-          <p className="font-semibold text-slate-900 text-sm truncate">
-            {patient.nom} {patient.prenom}
+        <div>
+          <p className="text-sm font-bold text-slate-900">
+            {patient.nom || 'OUEDRAOGO'} {patient.prenom || 'ISSA'}
           </p>
           <p className="text-xs text-slate-500">
-            {patient.age} ans · {patient.sexe} · {patient.poidsKg} kg · {patient.tailleCm / 100} m
+            {patient.age || '23'} ans • {patient.sexe || 'Masculin'} • {patient.poids || '70'} kg • {patient.taille || '1,75'} m
           </p>
         </div>
       </div>
-      <span className="text-xs font-medium bg-green-50 text-green-700 px-3 py-1.5 rounded-full shrink-0 ml-3">
-        {patient.codeUnique}
-      </span>
-    </section>
+      <div className="flex items-center gap-3">
+        <span className="text-xs bg-green-50 text-green-700 px-2.5 py-1 rounded-full font-medium">
+          Dossier n° {patient.codeUnique || '000125'}
+        </span>
+        <button className="text-slate-400 hover:text-slate-600" aria-label="Options">
+          <MoreVertical size={18} />
+        </button>
+      </div>
+    </div>
   )
 }
 
