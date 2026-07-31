@@ -10,16 +10,16 @@ const ETAPES = [
 
 function ConsultationStepper({ etapeActive }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6 shadow-sm">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-6">
       <div className="flex items-center">
         {ETAPES.map((etape, i) => {
           const estComplete = i < etapeActive
           const estActive = i === etapeActive
           return (
             <div key={etape.label} className="flex items-center flex-1">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center gap-1.5">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all shrink-0 ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all shrink-0 ${
                     estComplete
                       ? 'bg-green-500 text-white'
                       : estActive
@@ -27,11 +27,11 @@ function ConsultationStepper({ etapeActive }) {
                         : 'bg-slate-100 text-slate-400'
                   }`}
                 >
-                  {estComplete ? <Check size={16} /> : etape.numero}
+                  {estComplete ? <Check size={18} strokeWidth={3} /> : etape.numero}
                 </div>
                 <span
-                  className={`text-xs font-medium hidden sm:inline ${
-                    estActive ? 'text-green-700' : estComplete ? 'text-slate-600' : 'text-slate-400'
+                  className={`text-xs font-medium hidden sm:block ${
+                    estActive ? 'text-green-700 font-semibold' : estComplete ? 'text-slate-600' : 'text-slate-400'
                   }`}
                 >
                   {etape.label}
@@ -39,7 +39,7 @@ function ConsultationStepper({ etapeActive }) {
               </div>
               {i < ETAPES.length - 1 && (
                 <div
-                  className={`flex-1 h-0.5 mx-2 rounded-full ${
+                  className={`flex-1 h-0.5 mx-3 rounded-full ${
                     i < etapeActive ? 'bg-green-500' : 'bg-slate-200'
                   }`}
                 />

@@ -13,6 +13,8 @@ import Consultation from './pages/Consultation'
 import Prescription from './pages/Prescription'
 import RendezVous from './pages/RendezVous'
 import IAClinique from './pages/IAClinique'
+import SantePublique from './pages/SantePublique'
+import Parametres from './pages/Parametres'
 import TableauBordLaborantin from './pages/laborantin/TableauBordLaborantin'
 import HistoriqueLaborantin from './pages/laborantin/HistoriqueLaborantin'
 import TableauBordAdmin from './pages/admin/TableauBordAdmin'
@@ -37,6 +39,8 @@ function App() {
             <Route path="/prescription/:patientId" element={<Prescription />} />
             <Route path="/rendez-vous" element={<RendezVous />} />
             <Route path="/ia-clinique" element={<IAClinique />} />
+            <Route path="/sante-publique" element={<SantePublique />} />
+            <Route path="/parametres" element={<Parametres />} />
           </Route>
 
           {/* Profil laborantin */}
